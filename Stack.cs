@@ -7,6 +7,7 @@ public sealed class MyStack<T>
     : IEnumerable<T>, ICollection, IReadOnlyCollection<T>
 {
     const int DEFAULT_CAPACITY = 4;
+    public int resizeCnt = 0;
 
     private T[] _items;
     private int _count = 0;
@@ -193,6 +194,7 @@ public sealed class MyStack<T>
         if (newCapacity < capacity) newCapacity = capacity;
 
         Array.Resize(ref _items, newCapacity);
+        resizeCnt++;
     }
 
     public IEnumerator<T> GetEnumerator()
@@ -205,7 +207,7 @@ public sealed class MyStack<T>
         return GetEnumerator();
     }
 
-    class Enumerator(MyStack<T> stack) : IEnumerator<T>, System.Collections.IEnumerator
+    class Enumerator(MyStack<T> stack) : IEnumerator<T>, IEnumerator
     {
         private MyStack<T> _stack = stack;
         private int _curIdx = -2;
