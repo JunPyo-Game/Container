@@ -282,11 +282,16 @@ public sealed class MyQueue<T>
         return GetEnumerator();
     }
 
-    class Enumerator(MyQueue<T> queue) : IEnumerator<T>, IEnumerator
+    public struct Enumerator: IEnumerator<T>, IEnumerator
     {
-        private MyQueue<T> _queue = queue;
+        private MyQueue<T> _queue;
         private int _curIdx = -1;
-        private T? _curItem;
+        private T? _curItem = default;
+
+        internal Enumerator(MyQueue<T> queue)
+        {
+            _queue = queue;
+        }
 
         public T Current
         {

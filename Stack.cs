@@ -207,19 +207,24 @@ public sealed class MyStack<T>
         return GetEnumerator();
     }
 
-    class Enumerator(MyStack<T> stack) : IEnumerator<T>, IEnumerator
+    public struct Enumerator : IEnumerator<T>, IEnumerator
     {
-        private MyStack<T> _stack = stack;
+        private MyStack<T> _stack;
         private int _curIdx = -2;
         private T? _curItem = default(T);
+
+        internal Enumerator(MyStack<T> stack)
+        {
+            _stack = stack;
+        }
 
         public T Current
         {
             get
-            {   
+            {
                 // 비정상적인 인덱스 접근
                 if (_curIdx < 0)
-                {  
+                {
                     // _curIdx가 음수일때, -1, -2외의 값이 들어올 수 없다.
                     Debug.Assert(_curIdx == -1 || _curIdx == -2);
 
